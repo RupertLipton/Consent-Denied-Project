@@ -1,0 +1,151 @@
+<form id="signup-form">
+    <div class="form-field">
+        <label for="name">FULL NAME:</label>
+        <input type="text" id="name" required>
+        <div class="validation-message" id="name-validation-message">Please enter your full name</div>
+    </div>
+    <div class="form-field">
+        <label for="email">EMAIL:</label>
+        <input type="email" id="email" placeholder="example@domain.com" required>
+        <div class="validation-message" id="email-validation-message">Please enter a valid email address (format: name@example.com)</div>
+    </div>
+    <div class="form-field">
+        <label for="address1">ADDRESS LINE 1:</label>
+        <input type="text" id="address1" required>
+        <div class="validation-message" id="address1-validation-message">Please enter your address</div>
+    </div>
+    <div class="form-field">
+        <label for="address2">ADDRESS LINE 2 (OPTIONAL):</label>
+        <input type="text" id="address2">
+    </div>
+    <div class="form-field">
+        <label for="city">TOWN/CITY:</label>
+        <input type="text" id="city" required>
+        <div class="validation-message" id="city-validation-message">Please enter your town or city</div>
+    </div>
+    <div class="form-field">
+        <label for="state">COUNTY (OPTIONAL):</label>
+        <input type="text" id="state">
+    </div>
+    <div class="form-field">
+        <label for="postcode">POSTCODE:</label>
+        <input type="text" id="postcode" required>
+        <div class="validation-message" id="postcode-validation-message">Please enter your postcode</div>
+    </div>
+    <div class="form-field">
+        <label for="mobile">MOBILE NUMBER:</label>
+        <input type="tel" id="mobile" placeholder="07123 456789 or +44 7123 456789" required>
+        <div class="validation-message" id="mobile-validation-message">Please enter a valid phone number with spaces as shown: 07123 456789 or +44 7123 456789</div>
+    </div>
+    <div class="form-field">
+        <label for="car-reg">CAR REG:</label>
+        <input type="text" id="car-reg" required>
+        <div class="validation-message" id="car-reg-validation-message">Please enter your vehicle registration number</div>
+    </div>
+    <div class="form-field">
+        <label for="car-make">CAR MAKE:</label>
+        <input type="text" id="car-make" required>
+        <div class="validation-message" id="car-make-validation-message">Letters only, max 15 characters (e.g., Ford, Mercedes, Toyota)</div>
+    </div>
+    <div class="form-field">
+        <label for="car-model">CAR MODEL:</label>
+        <input type="text" id="car-model" required>
+        <div class="validation-message" id="car-model-validation-message">Please enter your vehicle model</div>
+    </div>
+    <div class="form-field">
+        <label for="car-color">CAR COLOUR:</label>
+        <input type="text" id="car-color" required>
+        <div class="validation-message" id="car-color-validation-message">Please enter your vehicle color</div>
+    </div>
+</form>
+<style>
+.form-field {
+    margin-bottom: 15px;
+}
+.form-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.form-field input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.form-field input::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+.validation-message {
+    color: #d40000;
+    font-size: 0.8em;
+    margin-top: 4px;
+    display: none;
+}
+</style>
+
+
+//botton of page HTML
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Find the form and buttons
+    const form = document.getElementById('signup-form');
+    const coreButton = document.getElementById('core-subscribe-button');
+    const enhancedButton = document.getElementById('enhanced-subscribe-button');
+    
+    if (!form || (!coreButton && !enhancedButton)) {
+        console.log("Form or buttons not found");
+        return;
+    }
+    
+    // Check if all required fields are filled
+    function isFormComplete() {
+        const requiredFields = form.querySelectorAll('input[required]');
+        for (let field of requiredFields) {
+            if (!field.value.trim()) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    // Add click handlers to both buttons
+    function addButtonHandler(button, productId) {
+        if (!button) return;
+        
+        // Store original href
+        const originalHref = button.href;
+        
+        // Add click event handler
+        button.addEventListener('click', function(e) {
+            // If form is not complete, prevent navigation
+            if (!isFormComplete()) {
+                e.preventDefault();
+                alert("Please complete all required fields before subscribing.");
+                return false;
+            }
+            
+            // Store form data
+            const formData = {};
+            const inputs = form.querySelectorAll('input');
+            inputs.forEach(input => {
+                formData[input.id] = input.value;
+            });
+            
+            // Save to session storage
+            sessionStorage.setItem('cd_registration_data', JSON.stringify(formData));
+            
+            // Let the navigation proceed
+            return true;
+        });
+    }
+    
+    // Add handlers to buttons
+    addButtonHandler(coreButton, 846);
+    addButtonHandler(enhancedButton, 847);
+    
+    console.log("Button handlers added successfully");
+});
+</script>
